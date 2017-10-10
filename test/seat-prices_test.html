@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>seat-prices test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../seat-prices.html">
+  </head>
+  <body>
+
+    <test-fixture id="BasicTestFixture">
+      <template>
+        <seat-prices></seat-prices>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="ChangedPropertyTestFixture">
+      <template>
+        <seat-prices currency-symbol="£"></seat-prices>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('seat-prices', () => {
+        let seatPrices;
+        setup(() => {
+          seatPrices = fixture('BasicTestFixture')
+        });
+
+
+        test('instantiating the element with default properties works', () => {
+          assert.equal(seatPrices.categories[1].id, 'ADBE7964-E8B9-422B-9C03-8AABEBE67194');
+        });
+
+
+        // Use this to test incoming attributes
+        test('setting a property on the element works', () => {
+          seatPrices = fixture('ChangedPropertyTestFixture');
+
+          assert.equal(seatPrices.currencySymbol, '£');
+        });
+
+
+        test('number of displayed seat prices', () => {
+          const numberOfCategories = seatPrices.categories.length;
+          const displayedCategories = seatPrices.shadowRoot;
+
+          const spans = seatPrices.querySelector("span");
+
+
+
+
+          console.log("ELEMENT", seatPrices.shadowRoot);
+          console.log("spans", spans);
+
+          console.log("Displayed Categories", numberOfCategories, displayedCategories);
+          debugger
+        })
+      });
+    </script>
+
+  </body>
+</html>

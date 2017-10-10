@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+
+<dom-module id="seat-prices">
+  <template>
+    <style>
+      :host {
+        display: block;
+        min-height: 30px;
+        border: 1px solid rgb(234, 234, 234);
+        border-radius: 3px 3px 0 0 ;
+        border-bottom: transparent;
+      }
+
+      .price {
+        height: 30px;
+        display: inline-block;
+        position: relative;
+        line-height: 30px;
+        margin-left: 30px;
+      }
+
+      .price svg {
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        left: -25px;
+      }
+    </style>
+
+    <template is="dom-repeat" items="[[ categories ]]">
+        <span class="price">
+          <svg>
+            <circle r="5" cx="15" cy="15" fill$="[[ item.seatColor ]]"></circle>
+          </svg>
+          [[ currencySymbol ]][[ toFixedPrice(item.defaultPrice) ]]
+          <span hidden$="[[ !item.hasDiscounts ]]">*</span>
+        </span>
+      </template>
+  </template>
+
+  <script>
+
+
+    /**
+     * `seat-prices`
+     * To trial testing with polymer
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class SeatPrices extends Polymer.Element {
+      static get is() { return 'seat-prices'; }
+      static get properties() {
+        return {
+          categories: {
+            type: Array,
+            value: [
+              {
+                "id": "D9B4484A-4B51-4F6D-9536-BC37A8C864C7",
+                "label": "Premium Seats",
+                "defaultPrice": 50,
+                "seatColor": "#ecdb6f"
+              },
+              {
+                "id": "ADBE7964-E8B9-422B-9C03-8AABEBE67194",
+                "label": "Band A",
+                "defaultPrice": 39.5,
+                "hasDiscounts": true,
+                "seatColor": "#e86fec"
+              },
+              {
+                "id": "A13AFADF-9B8E-40D1-9335-F7107D1F9DF1",
+                "label": "Band B",
+                "defaultPrice": 32.5,
+                "hasDiscounts": true,
+                "seatColor": "#6fc2ec"
+              },
+              {
+                "id": "3034BB94-F8D7-493A-9DD8-51986448B56B",
+                "label": "Band C",
+                "defaultPrice": 24.5,
+                "hasDiscounts": true,
+                "seatColor": "#83d6a2"
+              },
+              {
+                "id": "80873BEE-9733-46A3-9FB0-901E7F906B69",
+                "label": "Band D",
+                "defaultPrice": 17,
+                "seatColor": "#b0bf60"
+              }
+            ]
+          },
+          currencySymbol: {
+            type: String,
+            value: "£"
+          }
+        };
+      }
+      static get behaviors() {
+        return {
+          behaviors: [registerStateBehavior]
+        }
+      }
+      toFixedPrice(num) {
+        if (!num) return;
+        return parseFloat(num).toFixed(2);
+      }
+    }
+
+    window.customElements.define(SeatPrices.is, SeatPrices);
+  </script>
+</dom-module>
