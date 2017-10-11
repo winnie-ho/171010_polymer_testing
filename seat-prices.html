@@ -27,9 +27,16 @@
         left: -25px;
       }
     </style>
+    <h1 id="heading" >Seat Prices Test</h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+    <p> [[ toFixedPrice(1) ]] </p>
 
+    
     <template is="dom-repeat" items="[[ categories ]]">
-        <span class="price">
+        <span id="[[ item.id ]]" class="price">
           <svg>
             <circle r="5" cx="15" cy="15" fill$="[[ item.seatColor ]]"></circle>
           </svg>
@@ -50,6 +57,8 @@
      * @polymer
      * @demo demo/index.html
      */
+
+    
     class SeatPrices extends Polymer.Element {
       static get is() { return 'seat-prices'; }
       static get properties() {
@@ -98,11 +107,7 @@
           }
         };
       }
-      static get behaviors() {
-        return {
-          behaviors: [registerStateBehavior]
-        }
-      }
+
       toFixedPrice(num) {
         if (!num) return;
         return parseFloat(num).toFixed(2);

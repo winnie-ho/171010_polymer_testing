@@ -21,7 +21,7 @@
 
     <test-fixture id="ChangedPropertyTestFixture">
       <template>
-        <seat-prices currency-symbol="£"></seat-prices>
+        <seat-prices currency-symbol="$"></seat-prices>
       </template>
     </test-fixture>
 
@@ -29,38 +29,74 @@
       suite('seat-prices', () => {
         let seatPrices;
         setup(() => {
-          seatPrices = fixture('BasicTestFixture')
+          seatPrices = fixture('BasicTestFixture');
         });
 
 
         test('instantiating the element with default properties works', () => {
+          assert.equal(seatPrices.categories[0].id, 'D9B4484A-4B51-4F6D-9536-BC37A8C864C7');
+          assert.equal(seatPrices.categories[0].label, 'Premium Seats');
+          assert.equal(seatPrices.categories[0].defaultPrice, 50);
+          assert.equal(seatPrices.categories[0].seatColor, '#ecdb6f');
+
           assert.equal(seatPrices.categories[1].id, 'ADBE7964-E8B9-422B-9C03-8AABEBE67194');
+          assert.equal(seatPrices.categories[2].id, 'A13AFADF-9B8E-40D1-9335-F7107D1F9DF1');
+          assert.equal(seatPrices.categories[3].id, '3034BB94-F8D7-493A-9DD8-51986448B56B');
+          assert.equal(seatPrices.categories[4].id, '80873BEE-9733-46A3-9FB0-901E7F906B69');
         });
 
+        test('5 price categories given', () => {
+          assert.equal(seatPrices.categories.length, 5);
+        });
 
         // Use this to test incoming attributes
         test('setting a property on the element works', () => {
           seatPrices = fixture('ChangedPropertyTestFixture');
 
-          assert.equal(seatPrices.currencySymbol, '£');
+          assert.equal(seatPrices.currencySymbol, '$');
         });
 
-
-        test('number of displayed seat prices', () => {
-          const numberOfCategories = seatPrices.categories.length;
-          const displayedCategories = seatPrices.shadowRoot;
-
-          const spans = seatPrices.querySelector("span");
-
-
-
-
-          console.log("ELEMENT", seatPrices.shadowRoot);
-          console.log("spans", spans);
-
-          console.log("Displayed Categories", numberOfCategories, displayedCategories);
-          debugger
+        test('is ok', () => {
+          expect(document.querySelector('seat-prices')).to.be.ok;
         })
+
+
+        test('display correct header', () => {
+          seatPrices = fixture('BasicTestFixture')
+          const seatPricesShadow = seatPrices.shadowRoot;
+          const seatPricesHeader = seatPricesShadow.getElementById("heading");
+          // const seatPricesHeader = seatPricesShadow.querySelector("h1");
+          assert.equal(seatPricesHeader.innerHTML, "Seat Prices Test");
+        })
+
+        test('displays price to float', () => {
+          const seatPricesShadow = seatPrices.shadowRoot;
+          const testPrice = seatPricesShadow.querySelector("p");
+          // let cost = seatPrices.categories[0].defaultPrice;
+          // assert.equal(50.00, toFixedPrice(cost));
+          assert.equal(testPrice.innerHTML, 1.00);
+        })
+
+        // test('svg circles color', () => {
+        //   const seatPricesShadow = seatPrices.shadowRoot;
+        //   const testPriceCircle = seatPricesShadow.querySelector("span");
+        //   // let cost = seatPrices.categories[0].defaultPrice;
+        //   // assert.equal(50.00, toFixedPrice(cost));
+        //   assert.equal(testPriceCircle.innerText, "£1.00 * Hello");
+        // })
+
+        test('Item lengths should be equal', (done) => {
+          let numberOfPrices = seatPrices.categories.length;
+
+          flush(function() {
+            debugger
+            spanItems = seatPrices.shadowRoot.querySelectorAll('h1');
+            console.log("SPAN ITEMS", spanItems);
+            assert.equal(numberOfPrices, spanItems.length);
+            done();
+          });
+        });
+
       });
     </script>
 
